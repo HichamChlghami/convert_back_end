@@ -1,1 +1,25 @@
-runtime: nodejs20
+# runtime: custom
+# env: flex
+# service: default
+# handlers:
+# - url: /.*
+#   script: auto
+
+# manual_scaling:
+#   instances: 1  # Set the number of instances as needed
+
+
+
+
+
+
+
+runtime: custom
+env: flex
+service: default
+handlers:
+- url: /.*
+  script: auto
+
+manual_scaling:
+  instances: 1
