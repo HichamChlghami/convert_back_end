@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 dotenv.config();
 
-const DB = process.env.DB
+const DB = process.env.DB || "mongodb+srv://Hicham9Move:Hicham9Move@cluster0.uhlqzxs.mongodb.net/?retryWrites=true&w=majority";
 const database = async () => {
 
     try {
