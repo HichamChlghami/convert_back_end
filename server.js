@@ -12,12 +12,7 @@ const Convert = require('./model/convert');
 
 app.use(express.json());
 // app.use(express.static(path.join(__dirname, './files')));
-app.use(cors({
-    origin: 'http://191.101.80.60:8080', // Replace with your front-end domain
-    methods: 'GET,POST,PUT,DELETE',
-    allowedHeaders: 'Content-Type,Authorization',
-    credentials: true // if you're dealing with cookies or other credentials
-}));
+app.use(cors());
 app.use('/files', express.static(path.join(__dirname, 'files')))
 database();
 
