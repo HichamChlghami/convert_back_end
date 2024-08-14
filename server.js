@@ -169,7 +169,7 @@ app.get('/api/download', (req, res) => {
 
 
 app.get('/' , (req , res)=>{
-  res.send('hello')
+  res.send('hello update')
 })
 
 
