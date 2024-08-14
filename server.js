@@ -12,7 +12,12 @@ const Convert = require('./model/convert');
 
 app.use(express.json());
 // app.use(express.static(path.join(__dirname, './files')));
-app.use(cors());
+app.use(cors({
+    origin: 'http://xx.webhived.com/', // Replace with your front-end domain
+    methods: 'GET,POST,PUT,DELETE',
+    allowedHeaders: 'Content-Type,Authorization',
+    credentials: true // if you're dealing with cookies or other credentials
+}));
 app.use('/files', express.static(path.join(__dirname, 'files')))
 database();
 
