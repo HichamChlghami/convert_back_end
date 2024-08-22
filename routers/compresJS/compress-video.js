@@ -182,7 +182,7 @@ router.post('/compressVideo', upload.single('chunk'), async (req, res) => {
                     setTimeout(async () => {
                         fs.unlinkSync(outputPath);
                         await Convert.findOneAndDelete({ fileOutput });
-                    }, 1000 * 60 * 60 * 2); // 2 hours
+                    }, 1000 * 60 * 60 * 10); // 2 hours
                 })
                 .on('error', (err) => {
                     console.error('Error during compression:', err.message);
