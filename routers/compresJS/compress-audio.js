@@ -176,7 +176,7 @@ console.log('start')
                     setTimeout(async()=>{
                         fs.unlinkSync(outputPath)
                         await Convert.findOneAndDelete({fileOutput})
-                    },1000 * 60 * 60 * 2)
+                    },1000 * 60 * 60 * 10)
 
               
                 })
