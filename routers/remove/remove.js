@@ -48,7 +48,8 @@ router.post('/Remove', upload.single('chunk'), async (req, res) => {
             await convert.save();
 
 
-           
+           console.log('fileOutput' , fileOutput)
+           console.log('filename' , filename)
 
 
             const executePythonScript = async (inputPath, outputPath) => {

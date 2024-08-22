@@ -189,7 +189,7 @@ router.post('/videoAudio', upload.single('chunk'), async (req, res) => {
                     fs.unlinkSync(outputPath);
                   }
                   await Convert.findOneAndDelete({ fileOutput });
-                }, 1000 * 60 * 60 * 2); // 2 hours
+                }, 1000 * 60 * 60 * 10); // 2 hours
               })
               .save(outputPath);
           

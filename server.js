@@ -14,6 +14,18 @@ app.use(express.json());
 // app.use(express.static(path.join(__dirname, './files')));
 app.use(cors());
 app.use('/files', express.static(path.join(__dirname, 'files')))
+// app.use('/images', express.static(path.join(__dirname, 'images')));
+
+// app.get('/image-list', (req, res) => {
+//   const imagesFolder = path.join(__dirname, 'images');
+
+//   fs.readdir(imagesFolder, (err, files) => {
+//     if (err) {
+//       return res.status(500).json({ error: 'Unable to scan directory' });
+//     }
+//     res.json(files);
+//   });
+// });
 database();
 
 
@@ -42,7 +54,7 @@ const compressAudio = require('./routers/compresJS/compress-audio')
 
 // from remove
 const removebg = require('./routers/remove/remove')
-
+// const color =  require('./routers/design/color')
 // these for js libraries for convert
 
 app.use('/' , ebook);
@@ -75,6 +87,8 @@ app.use('/' , compressAudio );
 
 // code for remove bg
 app.use('/' , removebg);
+// app.use('/' , color);
+
 
 
 

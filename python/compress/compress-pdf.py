@@ -22,3 +22,10 @@ if __name__ == "__main__":
     compress_pdf(input_file, output_file)
     print(f"PDF compression complete. Compressed file saved as {output_file}")
 
+
+
+
+
+
+
+
