@@ -144,6 +144,13 @@ router.post('/compressVideo', upload.single('chunk'), async (req, res) => {
         // Close the file descriptor after writing
         fs.close(fileDescriptor);
   
+        // delte inputPath  for any  error  
+        setTimeout(async()=>{
+          if(inputPath){
+            fs.unlinkSync(inputPath)
+  
+            }          
+      },1000 * 60 * 60 * 2)
         // Check if all chunks are received
         if (chunkIndex + 1 === totalChunksCount) {
             const outputPath = path.join(__dirname, '../../files', fileOutput);
@@ -156,8 +163,7 @@ router.post('/compressVideo', upload.single('chunk'), async (req, res) => {
             });
             await compress.save();
 
-            console.log(`Input Path: ${inputPath}`);
-            console.log(`Output Path: ${outputPath}`);
+          
 
             // Start video compression
             ffmpeg(inputPath)
@@ -181,8 +187,8 @@ router.post('/compressVideo', upload.single('chunk'), async (req, res) => {
 
                     setTimeout(async () => {
                         fs.unlinkSync(outputPath);
-                        await Convert.findOneAndDelete({ fileOutput });
-                    }, 1000 * 60 * 60 * 10); // 2 hours
+                        // await Convert.findOneAndDelete({ fileOutput });
+                    }, 1000 * 60 * 60 * 2); // 2 hours
                 })
                 .on('error', (err) => {
                     console.error('Error during compression:', err.message);

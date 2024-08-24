@@ -178,7 +178,7 @@ app.get('/api/download', (req, res) => {
 
 
 app.get('/' , (req , res)=>{
-  res.send('hello')
+  res.send('hello updated')
 })
 
 
@@ -282,7 +282,7 @@ app.get('/' , (req , res)=>{
 
 
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 8000
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });

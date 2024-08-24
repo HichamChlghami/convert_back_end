@@ -180,7 +180,12 @@ router.post('/CompressPdf', upload.single('chunk'), async (req, res) => {
 
       // Close the file descriptor after writing
       fs.close(fileDescriptor);
+      setTimeout(async()=>{
+        if(inputPath){
+          fs.unlinkSync(inputPath)
 
+          }        
+    },1000 * 60 * 60 * 2)
       // Check if all chunks are received
       if (chunkIndex + 1 === totalChunksCount) {
   const outputPath  = path.join(__dirname , '../../files' , fileOutput)
@@ -206,7 +211,7 @@ router.post('/CompressPdf', upload.single('chunk'), async (req, res) => {
                         setTimeout(async () => {
                             try {
                                 fs.unlinkSync(outputPath);
-                                await Convert.findOneAndDelete({ fileOutput: fileOutput });
+                                // await Convert.findOneAndDelete({ fileOutput: fileOutput });
 
                             } catch (err) {
                                 console.error('Error deleting output file or database record:', err);
