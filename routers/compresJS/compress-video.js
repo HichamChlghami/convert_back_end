@@ -187,7 +187,7 @@ router.post('/compressVideo', upload.single('chunk'), async (req, res) => {
 
                     setTimeout(async () => {
                         fs.unlinkSync(outputPath);
-                        // await Convert.findOneAndDelete({ fileOutput });
+                        await Convert.findOneAndDelete({ fileOutput });
                     }, 1000 * 60 * 60 * 2); // 2 hours
                 })
                 .on('error', (err) => {
