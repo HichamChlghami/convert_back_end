@@ -115,13 +115,12 @@ app.get('/get', async (req, res) => {
 
 app.delete('/delete/:id', async (req, res) => {
   try {
-
-    console.log('hi')
+    console.log('hi');
     const id = req.params.id;
-    
+
     // Retrieve the document first
     const convert = await Convert.findById(id);
-    
+
     if (!convert) {
       return res.status(404).json({ message: 'Document not found' });
     }
@@ -134,22 +133,17 @@ app.delete('/delete/:id', async (req, res) => {
 
     // Check if the file exists and delete it
     if (fs.existsSync(filePath)) {
-      fs.unlink(filePath, (err) => {
-        if (err) {
-          console.error('Error deleting file:', err);
-          return res.status(500).json({ error: 'Internal Server Error', details: err.message });
-        }
+      await fs.promises.unlink(filePath);
 
-        // Proceed to delete from GCS bucket here if needed
+      // Proceed to delete from GCS bucket here if needed
 
-        return res.status(200).json({ message: 'File deleted successfully' });
-      });
+      return res.status(200).json({ message: 'File deleted successfully' });
     } else {
       return res.status(404).json({ message: 'File not found' });
     }
   } catch (error) {
     console.error('Error deleting file:', error);
-    return res.status(500).json({ error: 'Internal Server Error', details: error.message });
+    return res.status(500).json({ error: 'Internal Server Error' });
   }
 });
 
@@ -178,7 +172,7 @@ app.get('/api/download', (req, res) => {
 
 
 app.get('/' , (req , res)=>{
-  res.send('hello updated2')
+  res.send('hello updated3')
 })
 
 
