@@ -152,11 +152,20 @@ const formatFile = inputPath.split('.').pop()
 
           console.log('Conversion finished successfully.');
           conversionProgress[fileOutput] = 100;
-          fs.unlinkSync(inputPath);
-
+          if (fs.existsSync(inputPath)) {
+            await fs.promises.unlink(inputPath);
+              
+          }
           setTimeout(async () => {
-              fs.unlinkSync(outputPath);
               // await Convert.findOneAndDelete({ fileOutput });
+
+
+              if (fs.existsSync(outputPath)) {
+                await fs.promises.unlink(outputPath);
+                  
+              }
+
+
           }, 1000 * 60 * 60 * 2); // 2 hours
             
             res.json({ message: 'Files converted successfully!' });

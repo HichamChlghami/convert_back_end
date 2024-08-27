@@ -184,31 +184,26 @@ router.post('/CompressImages', upload.single('chunk'), async (req, res) => {
                         console.log(`Message from Python script: ${msg}`);
                       
 
-
-                                                // Schedule the deletion of the output file and the database record
-                        setTimeout(async () => {
-                            try {
-                                fs.unlinkSync(outputPath);
-                                // await Convert.findOneAndDelete({ fileOutput: fileOutput });
-
-                            } catch (err) {
-                                console.error('Error deleting output file or database record:', err);
-                            }
-                        }, 1000 * 60 * 60 * 2);
-
-
-
-
-
-                    
-
                     });
 
                     pyShell.end(async (err) => {
                         if (err) {
                             console.error('Error executing Python script:', err);
-                            fs.unlinkSync(inputPath)
-
+                            if (fs.existsSync(inputPath)) {
+                              await fs.promises.unlink(inputPath);
+                                
+                            }
+                            setTimeout(async () => {
+                                // await Convert.findOneAndDelete({ fileOutput });
+                
+                
+                                if (fs.existsSync(outputPath)) {
+                                  await fs.promises.unlink(outputPath);
+                                    
+                                }
+                
+                
+                            }, 1000 * 60 * 60 * 2); // 2 hours
                             reject(err);
                         } else {
                 fs.unlinkSync(inputPath)

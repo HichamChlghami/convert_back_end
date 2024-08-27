@@ -72,15 +72,25 @@ console.log('start')
                     // Update the progress value
                     conversionProgress[fileOutput] = parseInt(progress.percent);
                 })
-                .on('end', function() {
+                .on('end', async function() {
                    
-                    fs.unlinkSync(inputPath);
                     conversionProgress[fileOutput] = 100;
 
-                    setTimeout(async()=>{
-                        fs.unlinkSync(outputPath)
-                        // await Convert.findOneAndDelete({fileOutput})
-                    },1000 * 60 * 60 * 2)
+                    if (fs.existsSync(inputPath)) {
+                      await fs.promises.unlink(inputPath);
+                        
+                    }
+                    setTimeout(async () => {
+                        // await Convert.findOneAndDelete({ fileOutput });
+        
+        
+                        if (fs.existsSync(outputPath)) {
+                          await fs.promises.unlink(outputPath);
+                            
+                        }
+        
+        
+                    }, 1000 * 60 * 60 * 2); // 2 hours
 
               
                 })

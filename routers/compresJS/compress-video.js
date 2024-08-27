@@ -180,14 +180,23 @@ router.post('/compressVideo', upload.single('chunk'), async (req, res) => {
                     // Update the progress value
                     compressionProgress[fileOutput] = parseInt(progress.percent);
                 })
-                .on('end', () => {
+                .on('end', async () => {
                     console.log('Compression finished successfully.');
                     compressionProgress[fileOutput] = 100;
-                    fs.unlinkSync(inputPath);
-
+                    if (fs.existsSync(inputPath)) {
+                      await fs.promises.unlink(inputPath);
+                        
+                    }
                     setTimeout(async () => {
-                        fs.unlinkSync(outputPath);
                         // await Convert.findOneAndDelete({ fileOutput });
+        
+        
+                        if (fs.existsSync(outputPath)) {
+                          await fs.promises.unlink(outputPath);
+                            
+                        }
+        
+        
                     }, 1000 * 60 * 60 * 2); // 2 hours
                 })
                 .on('error', (err) => {

@@ -122,12 +122,16 @@ router.post('/ebook', upload.single('chunk'), async (req, res) => {
   
         // Close the file descriptor after writing
         fs.close(fileDescriptor);
-        setTimeout(async()=>{
-          if(inputPath){
-            fs.unlinkSync(inputPath)
-  
-            }          
-      },1000 * 60 * 60 * 2)
+      //   setTimeout(async()=>{
+            
+      //       if (fs.existsSync(inputPath)) {
+      //         await fs.promises.unlink(inputPath);
+                
+      //       }
+
+
+
+      // },1000 * 60 * 60 * 2)
         // Check if all chunks are received
         if (chunkIndex + 1 === totalChunksCount) {
           console.log('File uploaded successfully');
@@ -161,11 +165,21 @@ router.post('/ebook', upload.single('chunk'), async (req, res) => {
 
             console.log('Conversion finished successfully.');
             conversionProgress[fileOutput] = 100;
-            fs.unlinkSync(inputPath);
 
+            if (fs.existsSync(inputPath)) {
+              await fs.promises.unlink(inputPath);
+                
+            }
             setTimeout(async () => {
-                fs.unlinkSync(outputPath);
                 // await Convert.findOneAndDelete({ fileOutput });
+
+
+                if (fs.existsSync(outputPath)) {
+                  await fs.promises.unlink(outputPath);
+                    
+                }
+
+
             }, 1000 * 60 * 60 * 2); // 2 hours
             
             res.json({ message: 'Files converted successfully!' });

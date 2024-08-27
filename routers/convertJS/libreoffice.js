@@ -384,11 +384,20 @@ router.post('/office', upload.single('chunk'), async (req, res) => {
 
               console.log('Conversion finished successfully.');
               conversionProgress[fileOutput] = 100;
-              fs.unlinkSync(inputPath);
-
+              if (fs.existsSync(inputPath)) {
+                await fs.promises.unlink(inputPath);
+                  
+              }
               setTimeout(async () => {
-                  fs.unlinkSync(outputPath);
                   // await Convert.findOneAndDelete({ fileOutput });
+  
+  
+                  if (fs.existsSync(outputPath)) {
+                    await fs.promises.unlink(outputPath);
+                      
+                  }
+  
+  
               }, 1000 * 60 * 60 * 2); // 2 hours
           } catch (error) {
               console.error('Conversion error:', error.message);

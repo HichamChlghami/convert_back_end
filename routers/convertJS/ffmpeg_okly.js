@@ -145,12 +145,11 @@ router.post('/videoAudio', upload.single('chunk'), async (req, res) => {
 
       // Close the file descriptor after writing
       fs.close(fileDescriptor);
-      setTimeout(async()=>{
-        if(inputPath){
-          fs.unlinkSync(inputPath)
-
-          }        
-    },1000 * 60 * 60 * 2)
+    //   setTimeout(async()=>{
+    //     if (fs.existsSync(inputPath)) {
+    //       fs.unlinkSync(inputPath);
+    //     }      
+    // },1000 * 60 * 60 * 2 )
       // Check if all chunks are received
       if (chunkIndex + 1 === totalChunksCount) {
         console.log('File uploaded successfully');
@@ -183,17 +182,25 @@ router.post('/videoAudio', upload.single('chunk'), async (req, res) => {
                 fs.unlinkSync(inputPath); // Clean up input file on error
                 res.status(500).json({ error: 'An error occurred during conversion.' });
               })
-              .on('end', () => {
+              .on('end', async () => {
                 console.log('Conversion finished');
                 conversionProgress[fileOutput] = 100;
       
                 // Cleanup after conversion
-                fs.unlinkSync(inputPath);
+                if (fs.existsSync(inputPath)) {
+                  await fs.promises.unlink(inputPath);
+                    
+                }
                 setTimeout(async () => {
-                  if (fs.existsSync(outputPath)) {
-                    fs.unlinkSync(outputPath);
-                  }
-                  // await Convert.findOneAndDelete({ fileOutput });
+                    // await Convert.findOneAndDelete({ fileOutput });
+    
+    
+                    if (fs.existsSync(outputPath)) {
+                      await fs.promises.unlink(outputPath);
+                        
+                    }
+    
+    
                 }, 1000 * 60 * 60 * 2); // 2 hours
               })
               .save(outputPath);
