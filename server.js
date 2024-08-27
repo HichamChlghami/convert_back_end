@@ -130,7 +130,7 @@ app.delete('/delete/:id', async (req, res) => {
     const filePath = path.join(__dirname, 'files', fileName);
 
     // Delete the document from the database
-    await Convert.findByIdAndDelete(id);
+    // await Convert.findByIdAndDelete(id);
 
     // Check if the file exists and delete it
     if (fs.existsSync(filePath)) {
@@ -178,7 +178,7 @@ app.get('/api/download', (req, res) => {
 
 
 app.get('/' , (req , res)=>{
-  res.send('hello updated1')
+  res.send('hello updated2')
 })
 
 
