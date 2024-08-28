@@ -11,9 +11,11 @@ coloredlogs==15.0.1
 cryptography==42.0.7
 Deprecated==1.2.14
 et-xmlfile==1.1.0
+ffmpeg-python==0.2.0
 fire==0.6.0
 flatbuffers==24.3.25
 fonttools==4.52.4
+future==1.0.0
 google-api-core==2.19.0
 google-auth==2.29.0
 google-cloud-core==2.4.1

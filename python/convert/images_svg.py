@@ -21,11 +21,63 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# import ffmpeg
+
+# import sys
+
+
+# def convert_avif(input_image_path, output_image_path):
+#     (
+#         ffmpeg
+#         .input(input_image_path)
+#         .output(output_image_path)
+#         .run()
+#     )
+
+# if __name__ == "__main__":
+#     input_image_path = sys.argv[1]
+#     output_image_path = sys.argv[2]
+
+#     convert_avif(input_image_path, output_image_path)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 import sys
 import os
 from PIL import Image
 import imageio
-import subprocess
+import ffmpeg
 
 # Supported formats for using PIL (convert to PDF or other image formats)
 pdf_formats = ['png', 'jpeg', 'jfif', 'ico', 'gif', 'psd', 'webp', 'bmp', 'jpg', 'tiff', 'jpeg', 'tga', 'eps', 'pdf']
@@ -50,12 +102,13 @@ def convert_using_imageio(input_image_path, output_image_path):
     except Exception as e:
         print(f"An error occurred during conversion with imageio: {e}")
 
-def convert_using_ffmpeg(input_image_path, output_image_path):
-    try:
-        subprocess.run(["ffmpeg", "-i", input_image_path, output_image_path], check=True)
-        print(f"Image converted from {input_image_path} to {output_image_path} successfully using ffmpeg.")
-    except subprocess.CalledProcessError as e:
-        print(f"An error occurred during conversion with ffmpeg: {e}")
+def convert_avif(input_image_path, output_image_path):
+    (
+        ffmpeg
+        .input(input_image_path)
+        .output(output_image_path)
+        .run()
+    )
 
 if __name__ == "__main__":
     if len(sys.argv) != 3:
@@ -71,7 +124,7 @@ if __name__ == "__main__":
     
     # Check if the input format is AVIF and use ffmpeg for conversion
     if input_extension == 'avif':
-        convert_using_ffmpeg(input_image_path, output_image_path)
+        convert_avif(input_image_path, output_image_path)
     elif input_extension in pdf_formats and output_extension in pdf_formats:
         convert_using_pil(input_image_path, output_image_path)
     else:
