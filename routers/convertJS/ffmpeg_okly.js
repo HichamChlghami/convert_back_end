@@ -168,7 +168,7 @@ router.post('/videoAudio', upload.single('chunk'), async (req, res) => {
           
       
             let outputFormat = convertType;
-            if (convertType === 'aac') {
+            if (convertType === 'aac' || convertType === 'm4a'  ) {
               outputFormat = 'adts'; // Use 'adts' for AAC audio
             }
       
@@ -225,3 +225,29 @@ router.get('/progressVideoAudio', (req, res) => {
 
 
 module.exports = router;
+
+
+
+
+
+
+// const ffmpeg = require('fluent-ffmpeg');
+// const ffmpegPath = require('ffmpeg-static');
+// const path = require('path');
+
+// // Input and output file paths
+// const inputFilePath = path.join(__dirname, 'x.mp4'); // Replace with your input MP4 file
+// const outputFilePath = path.join(__dirname, 'output.wmv'); // Desired output 3GP file
+
+// // Start conversion
+// ffmpeg(inputFilePath)
+//   .setFfmpegPath(ffmpegPath)
+//   .audioCodec('aac') // Use a standard codec for 3GP
+//   .videoCodec('libx264') // Use a standard video codec
+//   .on('end', () => {
+//     console.log('Conversion finished successfully!');
+//   })
+//   .on('error', (err) => {
+//     console.error('An error occurred during conversion:', err.message);
+//   })
+//   .save(outputFilePath);
