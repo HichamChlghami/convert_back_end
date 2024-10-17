@@ -146,11 +146,13 @@ router.post('/compressVideo', upload.single('chunk'), async (req, res) => {
   
         // delte inputPath  for any  error  
         setTimeout(async()=>{
-          if(inputPath){
-            fs.unlinkSync(inputPath)
+            
+          if (fs.existsSync(inputPath)) {
+            await fs.promises.unlink(inputPath);
+              
+          }
   
-            }          
-      },1000 * 60 * 60 * 2)
+    },1000 * 60 * 60 * 2)
         // Check if all chunks are received
         if (chunkIndex + 1 === totalChunksCount) {
             const outputPath = path.join(__dirname, '../../files', fileOutput);
@@ -158,7 +160,7 @@ router.post('/compressVideo', upload.single('chunk'), async (req, res) => {
             // Create a new conversion record in the database
             const compress = new Convert({
                 fileOutput: fileOutput,
-                convertType: 'compression',
+                convertType: convertType,
                 filename: filename,
             });
             await compress.save();

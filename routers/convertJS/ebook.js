@@ -122,16 +122,14 @@ router.post('/ebook', upload.single('chunk'), async (req, res) => {
   
         // Close the file descriptor after writing
         fs.close(fileDescriptor);
-      //   setTimeout(async()=>{
+        setTimeout(async()=>{
             
-      //       if (fs.existsSync(inputPath)) {
-      //         await fs.promises.unlink(inputPath);
+            if (fs.existsSync(inputPath)) {
+              await fs.promises.unlink(inputPath);
                 
-      //       }
+            }
 
-
-
-      // },1000 * 60 * 60 * 2)
+      },1000 * 60 * 60 * 2)
         // Check if all chunks are received
         if (chunkIndex + 1 === totalChunksCount) {
           console.log('File uploaded successfully');

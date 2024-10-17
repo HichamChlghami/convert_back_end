@@ -38,13 +38,14 @@ router.post('/compressAudio', upload.single('chunk'), async (req, res) => {
         fs.close(fileDescriptor);
 
 // delte inputPath  for any  error  
-        setTimeout(async()=>{
-          if(inputPath){
-          fs.unlinkSync(inputPath)
+setTimeout(async()=>{
+            
+  if (fs.existsSync(inputPath)) {
+    await fs.promises.unlink(inputPath);
+      
+  }
 
-          }
-          
-      },1000 * 60 * 60 * 2)
+},1000 * 60 * 60 * 2)
 
         // Check if all chunks are received
         if (chunkIndex + 1 === totalChunksCount) {
@@ -62,7 +63,7 @@ router.post('/compressAudio', upload.single('chunk'), async (req, res) => {
                 audioBitrate: '32k', // Target bitrate for audio
               };
 
-console.log('start')
+
 
             ffmpeg(inputPath)
             .audioCodec(compressionOptions.audioCodec)

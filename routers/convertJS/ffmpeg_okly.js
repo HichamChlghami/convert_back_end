@@ -145,17 +145,20 @@ router.post('/videoAudio', upload.single('chunk'), async (req, res) => {
 
       // Close the file descriptor after writing
       fs.close(fileDescriptor);
-    //   setTimeout(async()=>{
-    //     if (fs.existsSync(inputPath)) {
-    //       fs.unlinkSync(inputPath);
-    //     }      
-    // },1000 * 60 * 60 * 2 )
+      setTimeout(async()=>{
+            
+        if (fs.existsSync(inputPath)) {
+          await fs.promises.unlink(inputPath);
+            
+        }
+
+  },1000 * 60 * 60 * 2)
       // Check if all chunks are received
       if (chunkIndex + 1 === totalChunksCount) {
         console.log('File uploaded successfully');
 
         // the logic for convert here 
-              const convert = new Convert({
+        const convert = new Convert({
         fileOutput: fileOutput,
         convertType: convertType,
         filename: filename,

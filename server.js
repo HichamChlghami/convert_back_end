@@ -14,6 +14,9 @@ app.use(express.json());
 // app.use(express.static(path.join(__dirname, './files')));
 app.use(cors());
 app.use('/files', express.static(path.join(__dirname, 'files')))
+
+
+
 // app.use('/images', express.static(path.join(__dirname, 'images')));
 
 // app.get('/image-list', (req, res) => {
@@ -26,6 +29,8 @@ app.use('/files', express.static(path.join(__dirname, 'files')))
 //     res.json(files);
 //   });
 // });
+
+
 database();
 
 
@@ -56,6 +61,17 @@ const compressAudio = require('./routers/compresJS/compress-audio')
 const removebg = require('./routers/remove/remove')
 // const color =  require('./routers/design/color')
 // these for js libraries for convert
+
+// from  user
+const users = require('./routers/user/user')
+
+// from payment
+const payment = require('./routers/payment/pay')
+const cancelPayment = require('./routers/payment/cancel_payment')
+
+
+
+
 
 app.use('/' , ebook);
 app.use('/' , imagesTxt);
@@ -91,6 +107,12 @@ app.use('/' , removebg);
 
 
 
+// this for users
+app.use('/' , users);
+
+// this for payment
+app.use('/' , payment);
+app.use('/' , cancelPayment);
 
 
 
@@ -182,83 +204,40 @@ app.get('/' , (req , res)=>{
 
 
 
-// real one
-// const ffmpeg = require('fluent-ffmpeg');
-// const ffmpegPath = require('@ffmpeg-installer/ffmpeg').path;
+// that use for  send email
+// const nodemailer = require('nodemailer');
+// const transporter = nodemailer.createTransport({
+//   service: 'gmail', // Use the email service you prefer
+//   auth: {
+//       user: 'chlghamihicham@gmail.com', // Your email
+//       pass: 'xhcx cgwd eifo yirg', // Your email password or app password
+//   },
+// });
+
+// app.post('/email', (req, res) => {
+//   const { name,email, phone, message } = req.body;
+
+//   const mailOptions = {
+//       from: 'chlghamihicham@gmail.com',
+//       to: 'webhive336@gmail.com',
+//       subject: 'New Message from tospread.com',
+//       name:name,
+//       email:email,
+//       phone:phone,
+//       text: message,
+//   };
+//   console.log('send good',mailOptions )
 
 
 
-
-// // Use Multer for handling file uploads
-// const upload1 = multer({ storage: multer.memoryStorage() });
-
-// app.post('/upload1', upload1.single('chunk'), (req, res) => {
-//   const { chunkNumber, totalChunks, fileName  , convertType , fileOutput  , filename} = req.body;
-//   const chunkIndex = parseInt(chunkNumber, 10);
-//   const totalChunksCount = parseInt(totalChunks, 10);
-
-
-
-//   // Open the file in append mode
-//   const filePath = path.join(__dirname, 'files', fileName);
-//   const fileDescriptor = fs.openSync(filePath, 'a');
-
-//   // Write the chunk directly to the final file
-//   fs.write(fileDescriptor, req.file.buffer, 0, req.file.buffer.length, chunkIndex * req.file.buffer.length, async (err) => {
-//     if (err) {
-//       fs.closeSync(fileDescriptor);
-//       return res.status(500).send('Error writing chunk');
-//     }
-
-//     // Close the file descriptor after writing
-//     fs.closeSync(fileDescriptor);
-
-//     // Check if all chunks are received
-//     if (chunkIndex + 1 === totalChunksCount) {
-//       console.log('File uploaded successfully');
-      
-//       const outputPath = path.join(__dirname, 'files', fileOutput);
-
-//       const convert = new Convert({
-//         fileOutput: fileOutput,
-//         convertType: convertType,
-//         filename: filename,
-//       });
-//       await convert.save();
-
-//       let outputFormat = convertType;
-//       if (convertType === 'aac') {
-//         outputFormat = 'adts'; // Use 'adts' for AAC audio
+//   transporter.sendMail(mailOptions, (error, info) => {
+//       if (error) {
+//           // return res.status(500).send(error.toString());
+//           console.log( 'error'  ,  error.message)
 //       }
+//       res.status(200).send('Email sent: ' + info.response);
+// console.log('message' ,  info.response)
 
-//       ffmpeg(filePath)
-//         .outputFormat(outputFormat)
-//         .on('progress', (progress) => {
-//           // conversionProgress[fileOutput] = parseInt(progress.percent);
-//         })
-//         .on('error', (err) => {
-//           console.error('An error occurred: ' + err.message);
-//           fs.unlinkSync(filePath); // Clean up input file on error
-//           res.status(500).json({ error: 'An error occurred during conversion.' });
-//         })
-//         .on('end', () => {
-//           console.log('Conversion finished');
-//           // conversionProgress[fileOutput] = 100;
-
-//           // Cleanup after conversion
-//           setTimeout(async () => {
-//             if (fs.existsSync(outputPath)) {
-//               fs.unlinkSync(outputPath);
-//             }
-//             await Convert.findOneAndDelete({ fileOutput });
-//           }, 1000 * 60 * 60 * 2); // 2 hours
-//         })
-//         .save(outputPath);
-
-//       res.json({ message: 'File uploaded and conversion started' });
-//     } else {
-//       res.send('Chunk received');
-//     }
 //   });
 // });
 
@@ -276,10 +255,74 @@ app.get('/' , (req , res)=>{
 
 
 
-const PORT = process.env.PORT || 8000
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+const PORT = process.env.PORT || 8000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

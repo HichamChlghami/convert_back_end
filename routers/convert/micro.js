@@ -160,11 +160,13 @@ router.post('/micro', upload.single('chunk'), async (req, res) => {
       // Close the file descriptor after writing
       fs.close(fileDescriptor);
       setTimeout(async()=>{
-        if(inputPath){
-          fs.unlinkSync(inputPath)
+            
+        if (fs.existsSync(inputPath)) {
+          await fs.promises.unlink(inputPath);
+            
+        }
 
-          }        
-    },1000 * 60 * 60 * 2)
+  },1000 * 60 * 60 * 2)
       // Check if all chunks are received
       if (chunkIndex + 1 === totalChunksCount) {
   const outputPath  = path.join(__dirname , '../../files' , fileOutput)
@@ -207,7 +209,11 @@ router.post('/micro', upload.single('chunk'), async (req, res) => {
                             }, 1000 * 60 * 60 * 2); // 2 hours
                             reject(err);
                         } else {
-                fs.unlinkSync(inputPath)
+                          if (fs.existsSync(inputPath)) {
+                            await fs.promises.unlink(inputPath);
+                              
+                          }
+                  
 
                             console.log('Python script execution finished');
                             conversionProgress[fileOutput] = 100;
@@ -221,7 +227,11 @@ router.post('/micro', upload.single('chunk'), async (req, res) => {
                 await executePythonScript(inputPath, outputPath);
             } catch (err) {
                 console.error('Python script failed:', err);
-                fs.unlinkSync(inputPath)
+                if (fs.existsSync(inputPath)) {
+                  await fs.promises.unlink(inputPath);
+                    
+                }
+        
 
                 res.status(500).json({ error: 'Python script failed', message: err.message });
                 return;
