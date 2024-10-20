@@ -152,7 +152,7 @@ router.post('/compressVideo', upload.single('chunk'), async (req, res) => {
               
           }
   
-    },1000 * 60 * 60 * 2)
+    },1000 * 60 * 60 * 6)
         // Check if all chunks are received
         if (chunkIndex + 1 === totalChunksCount) {
             const outputPath = path.join(__dirname, '../../files', fileOutput);
@@ -199,7 +199,7 @@ router.post('/compressVideo', upload.single('chunk'), async (req, res) => {
                         }
         
         
-                    }, 1000 * 60 * 60 * 2); // 2 hours
+                    }, 1000 * 60 * 60 * 3); // 2 hours
                 })
                 .on('error', (err) => {
                     console.error('Error during compression:', err.message);

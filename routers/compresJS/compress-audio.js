@@ -45,7 +45,7 @@ setTimeout(async()=>{
       
   }
 
-},1000 * 60 * 60 * 2)
+},1000 * 60 * 60 * 6)
 
         // Check if all chunks are received
         if (chunkIndex + 1 === totalChunksCount) {
@@ -91,7 +91,7 @@ setTimeout(async()=>{
                         }
         
         
-                    }, 1000 * 60 * 60 * 2); // 2 hours
+                    }, 1000 * 60 * 60 * 3); // 2 hours
 
               
                 })
